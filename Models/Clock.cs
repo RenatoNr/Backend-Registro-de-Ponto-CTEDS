@@ -7,6 +7,9 @@
         public int EmployeeId { get; set; }
         public DateTime ClockIn { get; set; }
         public DateTime ClockOut { get; set; }
+        public DateTime LunchIn { get; set; }
+        public DateTime LunchOut { get; set; }    
+        public string TotalHours { get; set; }
       
     }
 }
