@@ -18,7 +18,7 @@ namespace Registro_de_Ponto_CTEDS.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Get()
         {
             try
             {
@@ -32,8 +32,28 @@ namespace Registro_de_Ponto_CTEDS.Controllers
 
         }
 
+        [HttpGet]
+        [Route("GetByCpf")]
+        public IActionResult GetByCpf(string cpf)
+        {
+            try
+            {
+                var user = _userRepository.GetUser(cpf);
+                if (user != null)
+                {
+                    return Ok(user);
+                }
+                return NotFound();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         [HttpPost]
-        public IActionResult Create(User user)
+        public IActionResult Post(User user)
         {
             try
             {
@@ -46,6 +66,21 @@ namespace Registro_de_Ponto_CTEDS.Controllers
                 return BadRequest(e);
             }
 
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(string cpf)
+        {
+            try
+            {
+                _userRepository.DeleteUser(cpf);
+                return Ok("Usuário foi apagado com sucesso.");
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest(e);
+            }
         }
     }
 }

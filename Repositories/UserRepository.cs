@@ -24,5 +24,26 @@ namespace Registro_de_Ponto_CTEDS.Repositories
             var users = _appDbContext.users.ToList();         
             return users;
         }
+
+        public void DeleteUser(string cpf)
+        {
+            var user = _appDbContext.users.FirstOrDefault(x => x.Cpf == cpf);
+            if (user != null)
+            {
+                _appDbContext.users.Remove(user);
+                _appDbContext.SaveChanges();
+            }
+        }
+
+        public User? GetUser(string cpf)
+        {
+            var user = _appDbContext.users.FirstOrDefault(x => x.Cpf == cpf);
+            if (user != null)
+            {
+                return user;
+            }
+
+            return null;
+        }
     }
 }

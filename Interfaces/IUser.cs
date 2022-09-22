@@ -7,5 +7,8 @@ namespace Registro_de_Ponto_CTEDS.Interfaces
     {
         public void Create(User user);
         public List<User> GetAll();
+        public void DeleteUser(string cpf);
+        public User? GetUser(string cpf);
+
     }
 }
