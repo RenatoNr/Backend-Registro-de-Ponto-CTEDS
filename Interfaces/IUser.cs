@@ -9,6 +9,7 @@ namespace Registro_de_Ponto_CTEDS.Interfaces
         public List<User> GetAll();
         public void DeleteUser(string cpf);
         public User? GetUser(string cpf);
+        public bool Login(string cpf, string password);
 
     }
 }

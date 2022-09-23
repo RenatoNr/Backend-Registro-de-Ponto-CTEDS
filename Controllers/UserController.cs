@@ -25,9 +25,9 @@ namespace Registro_de_Ponto_CTEDS.Controllers
                 var users = _userRepository.GetAll();
                 return Ok(users);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return NotFound("Não existe usuários cadastrados.");
+                return BadRequest(e);
             }
 
         }
@@ -43,12 +43,12 @@ namespace Registro_de_Ponto_CTEDS.Controllers
                 {
                     return Ok(user);
                 }
-                return NotFound();
+                return NotFound("Usuário não encontrado.");
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                return BadRequest(e);
             }
         }
 
@@ -74,13 +74,21 @@ namespace Registro_de_Ponto_CTEDS.Controllers
             try
             {
                 _userRepository.DeleteUser(cpf);
-                return Ok("Usuário foi apagado com sucesso.");
+                return Ok("Usuário excluído com sucesso.");
             }
             catch (Exception e)
             {
 
                 return BadRequest(e);
             }
+        }
+
+        [HttpPost]
+        [Route("Login")]
+        public IActionResult Login(string cpf, string password)
+        {
+           var login = _userRepository.Login(cpf, password);
+           return Ok(login);
         }
     }
 }

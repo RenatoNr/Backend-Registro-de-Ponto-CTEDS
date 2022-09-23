@@ -1,7 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
 using Registro_de_Ponto_CTEDS.Context;
 using Registro_de_Ponto_CTEDS.Interfaces;
 using Registro_de_Ponto_CTEDS.Models;
+using BC = BCrypt.Net.BCrypt;
 
 namespace Registro_de_Ponto_CTEDS.Repositories
 {
@@ -15,6 +16,8 @@ namespace Registro_de_Ponto_CTEDS.Repositories
 
        public void Create(User user)
         {
+            string passwordHash = BC.HashPassword(user.Password);
+            user.Password = passwordHash;
             _appDbContext.users.Add(user);
             _appDbContext.SaveChanges();
         }
@@ -44,6 +47,25 @@ namespace Registro_de_Ponto_CTEDS.Repositories
             }
 
             return null;
+        }
+
+        public bool Login(string cpf, string password)
+        {
+            var user = GetUser(cpf);
+            if (user != null)
+            {
+                var dbHashedPassword = user.Password;
+                var result = BC.Verify(password, dbHashedPassword);
+
+                if (result)
+                {
+                    return true;
+
+                }
+               return false;
+            }
+
+            return false;
         }
     }
 }
