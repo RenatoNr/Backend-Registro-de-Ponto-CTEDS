@@ -15,7 +15,7 @@ namespace Registro_de_Ponto_CTEDS.Repositories
 
         public void Create(Clock clock)
         {
-            _appDbContext.users.Add(clock);
+            _appDbContext.clocks.Add(clock);
             _appDbContext.SaveChanges();
         }
 
@@ -25,10 +25,19 @@ namespace Registro_de_Ponto_CTEDS.Repositories
             return clocks;
         }
 
-        public List<Clock> GetClocksEmployee(string employeeId)
+        public List<Clock> GetClocksEmployee(int employeeId)
         {
-            var clocks = _appDbContext.clocks.Where(x => x.EmployeeId == employeeId);
-            if (clocks != null)
+            var groups = _appDbContext.clocks.GroupBy(x => x.EmployeeId == employeeId);
+            var clocks = new List<Clock>();
+            foreach(var group in groups)
+            {
+                
+                foreach(var clock in group)
+                {
+                    clocks.Add(clock);
+                }
+            }
+            if (clocks.Any())
             {
                 return clocks;
             }
@@ -37,24 +46,24 @@ namespace Registro_de_Ponto_CTEDS.Repositories
         }
         public void UpdateTime(int Id, int update)
         {
-            var updateclock = context.Products.FirstOrDefault(x => x.Id == Id);
+            var updateclock = _appDbContext.clocks.FirstOrDefault(x => x.Id == Id);
         
-            if (entity != null)
+            if (updateclock != null)
             {
                 if (update == 0)
                 {
-                    updateclock.LunchIn = DateTime.Now();
+                    updateclock.LunchIn = DateTime.Now;
                 }
                 else if(update == 1)
                 {
-                    updateclock.LunchOut = DateTime.Now();
+                    updateclock.LunchOut = DateTime.Now;
                 }
                 else
                 {
-                    updateclock.ClockOut = DateTime.Now();
+                    updateclock.ClockOut = DateTime.Now;
                 }
                 
-                context.SaveChanges();
+                _appDbContext.SaveChanges();
             }
         }
 

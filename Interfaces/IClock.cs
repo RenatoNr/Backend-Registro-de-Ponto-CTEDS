@@ -6,7 +6,7 @@ namespace Registro_de_Ponto_CTEDS.Interfaces;
     {
         public void Create(Clock clock);
         public List<Clock> GetAll();
-        public List<ClocksEmployee?> GetClocksEmployee(string employeeId);
+        public List<Clock> GetClocksEmployee(int employeeId);
         public void UpdateTime(int  Id, int update);
 
     }

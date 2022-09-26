@@ -35,7 +35,7 @@ namespace Registro_de_Ponto_CTEDS.Controllers
 
         [HttpGet]
         [Route("GetByEmployee")]
-        public IActionResult GetByEmployee(string employeeId)
+        public IActionResult GetByEmployee(int employeeId)
         {
             try
             {
