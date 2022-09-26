@@ -27,15 +27,12 @@ namespace Registro_de_Ponto_CTEDS.Repositories
 
         public List<Clock> GetClocksEmployee(int employeeId)
         {
-            var groups = _appDbContext.clocks.GroupBy(x => x.EmployeeId == employeeId);
+            var groups = _appDbContext.clocks.Where(x => x.EmployeeId == employeeId);
             var clocks = new List<Clock>();
-            foreach(var group in groups)
+            foreach(var clock in groups)
             {
-                
-                foreach(var clock in group)
-                {
                     clocks.Add(clock);
-                }
+                
             }
             if (clocks.Any())
             {
