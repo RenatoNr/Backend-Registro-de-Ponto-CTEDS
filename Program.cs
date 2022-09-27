@@ -20,6 +20,8 @@ namespace Registro_de_Ponto_CTEDS
             builder.Services.AddDbContext<AppDbContext>();
             //Serviço de Injeção das dependencias 
             builder.Services.AddScoped<IUser, UserRepository>();
+            builder.Services.AddScoped<IEmployee, EmployeeRepository>();
+            builder.Services.AddScoped<IClock, ClockRepository>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

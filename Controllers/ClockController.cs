@@ -5,7 +5,7 @@ using Registro_de_Ponto_CTEDS.Repositories;
 
 namespace Registro_de_Ponto_CTEDS.Controllers
 {
-    
+
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
@@ -70,11 +70,11 @@ namespace Registro_de_Ponto_CTEDS.Controllers
         }
         [HttpPost]
         [Route("UpdateTime")]
-        public IActionResult Update(int  Id, int update)
+        public IActionResult Update(int Id, int update)
         {
             try
             {
-                _clockRepository.UpdateTime(Id,update);
+                _clockRepository.UpdateTime(Id, update);
                 return Ok();
             }
             catch (Exception e)
@@ -85,5 +85,22 @@ namespace Registro_de_Ponto_CTEDS.Controllers
 
         }
 
+        //Soma horas trabalhadas de um objeto clock
+        [HttpPost]
+        [Route("GetSumWorkTime")]
+        public IActionResult GetTime(int id)
+        {
+            try
+            {
+                var result = _clockRepository.SumWorkTime(id);
+                return Ok(result);
+
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

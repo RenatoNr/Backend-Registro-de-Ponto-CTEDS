@@ -1,4 +1,5 @@
-﻿using Registro_de_Ponto_CTEDS.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using Registro_de_Ponto_CTEDS.Context;
 using Registro_de_Ponto_CTEDS.Interfaces;
 using Registro_de_Ponto_CTEDS.Models;
 using BC = BCrypt.Net.BCrypt;
@@ -15,6 +16,19 @@ namespace Registro_de_Ponto_CTEDS.Repositories
 
         public void Create(Clock clock)
         {
+            //var employee = _appDbContext.employees.Include(e => e.Id == clock.EmployeeId).First();
+            //var newClock = new Clock
+            //{
+            //    EmployeeId = employee.Id,
+            //    ClockIn = DateTime.Now,
+            //    TotalHours = ""
+            //};
+            clock.ClockIn = DateTime.Now;
+            clock.ClockOut = null;
+            clock.LunchIn = null;
+            clock.LunchOut = null;
+            clock.TotalHours = "";
+
             _appDbContext.clocks.Add(clock);
             _appDbContext.SaveChanges();
         }
@@ -62,6 +76,22 @@ namespace Registro_de_Ponto_CTEDS.Repositories
                 
                 _appDbContext.SaveChanges();
             }
+        }
+
+        public TimeSpan SumWorkTime(int id)
+        {
+            var clock = _appDbContext.clocks.FirstOrDefault(x => x.Id == id);
+            if (clock !=null)
+            {
+                TimeSpan firstPeriod = ((TimeSpan)(clock.ClockIn - clock.LunchIn));
+                TimeSpan secondPeriod = ((TimeSpan)(clock.ClockOut - clock.LunchOut));
+                var total = firstPeriod + secondPeriod;
+                clock.TotalHours = total.Duration().ToString();
+                _appDbContext.SaveChanges();
+                return total.Duration();
+            }
+           return TimeSpan.Zero;
+            
         }
 
     }
