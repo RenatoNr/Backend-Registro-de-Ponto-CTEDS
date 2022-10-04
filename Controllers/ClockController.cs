@@ -59,7 +59,7 @@ namespace Registro_de_Ponto_CTEDS.Controllers
             try
             {
                 _clockRepository.Create(clock);
-                return Ok();
+                return Ok("Registro efetuado com sucesso.");
             }
             catch (Exception e)
             {

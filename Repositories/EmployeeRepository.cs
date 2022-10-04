@@ -18,6 +18,7 @@ namespace Registro_de_Ponto_CTEDS.Repositories
         {
            var photoPath =  UploadPhotoService.SaveFile(photo);
             employee.Photo = photoPath;
+            
             _context.employees.Add(employee);
             _context.SaveChanges();
         }

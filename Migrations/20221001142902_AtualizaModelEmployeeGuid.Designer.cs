@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Registro_de_Ponto_CTEDS.Context;
 
@@ -10,9 +11,10 @@ using Registro_de_Ponto_CTEDS.Context;
 namespace Registro_de_Ponto_CTEDS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221001142902_AtualizaModelEmployeeGuid")]
+    partial class AtualizaModelEmployeeGuid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.9");
@@ -32,6 +34,9 @@ namespace Registro_de_Ponto_CTEDS.Migrations
                     b.Property<int>("EmployeeId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<Guid?>("EmployeeId1")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime?>("LunchIn")
                         .HasColumnType("TEXT");
 
@@ -44,16 +49,16 @@ namespace Registro_de_Ponto_CTEDS.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeId");
+                    b.HasIndex("EmployeeId1");
 
                     b.ToTable("clocks");
                 });
 
             modelBuilder.Entity("Registro_de_Ponto_CTEDS.Models.Employee", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Cpf")
                         .IsRequired()
@@ -109,9 +114,7 @@ namespace Registro_de_Ponto_CTEDS.Migrations
                 {
                     b.HasOne("Registro_de_Ponto_CTEDS.Models.Employee", "Employee")
                         .WithMany("clocks")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EmployeeId1");
 
                     b.Navigation("Employee");
                 });

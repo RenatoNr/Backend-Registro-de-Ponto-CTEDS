@@ -16,21 +16,25 @@ namespace Registro_de_Ponto_CTEDS.Repositories
 
         public void Create(Clock clock)
         {
-            //var employee = _appDbContext.employees.Include(e => e.Id == clock.EmployeeId).First();
-            //var newClock = new Clock
-            //{
-            //    EmployeeId = employee.Id,
-            //    ClockIn = DateTime.Now,
-            //    TotalHours = ""
-            //};
-            clock.ClockIn = DateTime.Now;
-            clock.ClockOut = null;
-            clock.LunchIn = null;
-            clock.LunchOut = null;
-            clock.TotalHours = "";
 
-            _appDbContext.clocks.Add(clock);
-            _appDbContext.SaveChanges();
+            var today = DateTime.Now.Date;
+            var clockExists = _appDbContext.clocks
+                .Where(x => x.EmployeeId == clock.EmployeeId)
+                .FirstOrDefault(c => c.ClockIn.Date == today);
+                       
+
+            if (clockExists != null)
+            {
+                clock.ClockIn = DateTime.Now;
+                clock.ClockOut = null;
+                clock.LunchIn = null;
+                clock.LunchOut = null;
+                clock.TotalHours = "";
+                _appDbContext.clocks.Add(clock);
+                _appDbContext.SaveChanges();
+
+            }
+
         }
 
         public List<Clock> GetAll()
@@ -43,10 +47,10 @@ namespace Registro_de_Ponto_CTEDS.Repositories
         {
             var groups = _appDbContext.clocks.Where(x => x.EmployeeId == employeeId);
             var clocks = new List<Clock>();
-            foreach(var clock in groups)
+            foreach (var clock in groups)
             {
-                    clocks.Add(clock);
-                
+                clocks.Add(clock);
+
             }
             if (clocks.Any())
             {
@@ -58,14 +62,14 @@ namespace Registro_de_Ponto_CTEDS.Repositories
         public void UpdateTime(int Id, int update)
         {
             var updateclock = _appDbContext.clocks.FirstOrDefault(x => x.Id == Id);
-        
+
             if (updateclock != null)
             {
                 if (update == 0)
                 {
                     updateclock.LunchIn = DateTime.Now;
                 }
-                else if(update == 1)
+                else if (update == 1)
                 {
                     updateclock.LunchOut = DateTime.Now;
                 }
@@ -73,7 +77,7 @@ namespace Registro_de_Ponto_CTEDS.Repositories
                 {
                     updateclock.ClockOut = DateTime.Now;
                 }
-                
+
                 _appDbContext.SaveChanges();
             }
         }
@@ -81,7 +85,7 @@ namespace Registro_de_Ponto_CTEDS.Repositories
         public TimeSpan SumWorkTime(int id)
         {
             var clock = _appDbContext.clocks.FirstOrDefault(x => x.Id == id);
-            if (clock !=null)
+            if (clock != null)
             {
                 TimeSpan firstPeriod = ((TimeSpan)(clock.ClockIn - clock.LunchIn));
                 TimeSpan secondPeriod = ((TimeSpan)(clock.ClockOut - clock.LunchOut));
@@ -90,8 +94,8 @@ namespace Registro_de_Ponto_CTEDS.Repositories
                 _appDbContext.SaveChanges();
                 return total.Duration();
             }
-           return TimeSpan.Zero;
-            
+            return TimeSpan.Zero;
+
         }
 
     }

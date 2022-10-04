@@ -38,7 +38,12 @@ namespace Registro_de_Ponto_CTEDS.Controllers
             try
             {
                 var result = _employeeRepository.GetEmployeeByCpf(cpf);
-                return Ok(result);
+                if(result != null)
+                {
+                    result.Password = "";
+                    return Ok(result);
+                }
+                return BadRequest();
             }
             catch (Exception e)
             {
