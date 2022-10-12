@@ -14,19 +14,38 @@ namespace Registro_de_Ponto_CTEDS.Repositories
             _context = context;
         }
 
-        public void Create(Employee employee, IFormFile photo)
+        public void Create(Employee employee)
         {
-           var photoPath =  UploadPhotoService.SaveFile(photo);
-            employee.Photo = photoPath;
+            //Usado somente para testes local
+            //var photoPath = UploadPhotoService.SaveFile(photo);
+            //employee.Photo = photoPath;
+            var cpfexists = _context.employees.FirstOrDefault(c => c.Cpf == employee.Cpf);
+            if (cpfexists == null)
+            {
+                _context.employees.Add(employee);
+                _context.SaveChanges();
+            }
             
-            _context.employees.Add(employee);
-            _context.SaveChanges();
         }
 
         public Employee GetEmployeeByCpf(string cpf)
         {
             var employee = _context.employees.FirstOrDefault(e => e.Cpf == cpf);
+
+            //if (employee != null)
+            //{
+            //    var today = DateTime.Now.Date;
+
+            //    Clock todayClocks = employee.clocks.FirstOrDefault(c => c.ClockIn.Date == today);
+
+            //    employee.clocks.Add(todayClocks);
+            //}
             return employee;
+        }
+
+        public List<Employee> GetEmployees()
+        {
+            return _context.employees.ToList();
         }
 
         public bool Login(string cpf, string password)

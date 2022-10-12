@@ -13,6 +13,7 @@ namespace Registro_de_Ponto_CTEDS.Models
         public string EmployeePost { get; set; }
         public string Password { get; set; }
         public string? Photo { get; set; }
+        
         public ICollection<Clock>? clocks { get; set; }
 
     }

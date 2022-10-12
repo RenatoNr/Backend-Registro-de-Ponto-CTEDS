@@ -11,8 +11,8 @@ using Registro_de_Ponto_CTEDS.Context;
 namespace Registro_de_Ponto_CTEDS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221003203626_AtualizaModelsComAutoincrement")]
-    partial class AtualizaModelsComAutoincrement
+    [Migration("20221006215654_PrimeiraMigration")]
+    partial class PrimeiraMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
