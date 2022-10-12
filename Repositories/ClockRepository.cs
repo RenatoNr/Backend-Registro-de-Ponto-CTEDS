@@ -23,7 +23,7 @@ namespace Registro_de_Ponto_CTEDS.Repositories
                 .FirstOrDefault(c => c.ClockIn.Date == today);
                        
 
-            if (clockExists != null)
+            if (clockExists == null)
             {
                 clock.ClockIn = DateTime.Now;
                 clock.ClockOut = null;

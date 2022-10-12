@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.Features;
 using Registro_de_Ponto_CTEDS.Context;
 using Registro_de_Ponto_CTEDS.Interfaces;
 using Registro_de_Ponto_CTEDS.Repositories;
@@ -16,6 +17,14 @@ namespace Registro_de_Ponto_CTEDS
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.Configure<FormOptions>(options =>
+            {
+                options.ValueLengthLimit = int.MaxValue;
+                options.MultipartBodyLengthLimit = int.MaxValue;
+                options.MemoryBufferThreshold = int.MaxValue;
+            });
+
             //Adicionando o contexto do banco de dados
             builder.Services.AddDbContext<AppDbContext>();
             //Serviço de Injeção das dependencias 
@@ -30,7 +39,7 @@ namespace Registro_de_Ponto_CTEDS
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            
+
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

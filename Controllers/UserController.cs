@@ -58,12 +58,12 @@ namespace Registro_de_Ponto_CTEDS.Controllers
             try
             {
                 _userRepository.Create(user);
-                return Ok();
+                return Ok("Usuário criado com sucesso!");
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
-                return BadRequest(e);
+                return BadRequest();
             }
 
         }

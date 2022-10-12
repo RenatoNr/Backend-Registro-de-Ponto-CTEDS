@@ -17,13 +17,14 @@ namespace Registro_de_Ponto_CTEDS.Controllers
 
         }
 
-        [HttpPost]
-        public IActionResult Post([FromForm] Employee employee, IFormFile photo)
+        [HttpPost, DisableRequestSizeLimit]
+        public IActionResult Post(Employee employee)
         {
             try
             {
-                _employeeRepository.Create(employee, photo);
-                return Ok();
+              
+                 _employeeRepository.Create(employee);
+                return Ok("Funcionário criado com sucesso!");
             }
             catch (Exception e)
             {
@@ -38,7 +39,7 @@ namespace Registro_de_Ponto_CTEDS.Controllers
             try
             {
                 var result = _employeeRepository.GetEmployeeByCpf(cpf);
-                if(result != null)
+                if (result != null)
                 {
                     result.Password = "";
                     return Ok(result);
@@ -52,6 +53,13 @@ namespace Registro_de_Ponto_CTEDS.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult ListEmployees()
+        {
+            var employees = _employeeRepository.GetEmployees();
+            return Ok(employees);
+
+        }
 
     }
 }

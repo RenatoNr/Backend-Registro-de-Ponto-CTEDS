@@ -1,8 +1,10 @@
-﻿namespace Registro_de_Ponto_CTEDS.Services
+﻿
+namespace Registro_de_Ponto_CTEDS.Services
 {
+    //Classe provisória para gravar imagem do funcionário localmente
     public class UploadPhotoService
     {
-        string strFileName;
+ string strFileName;
 
         string fileFolder = "Uploads/Photos";
 

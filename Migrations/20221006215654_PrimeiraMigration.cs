@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Registro_de_Ponto_CTEDS.Migrations
 {
-    public partial class MigrationInicial : Migration
+    public partial class PrimeiraMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -50,9 +50,9 @@ namespace Registro_de_Ponto_CTEDS.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     EmployeeId = table.Column<int>(type: "INTEGER", nullable: false),
                     ClockIn = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    ClockOut = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LunchIn = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LunchOut = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ClockOut = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    LunchIn = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    LunchOut = table.Column<DateTime>(type: "TEXT", nullable: true),
                     TotalHours = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
