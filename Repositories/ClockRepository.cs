@@ -21,7 +21,7 @@ namespace Registro_de_Ponto_CTEDS.Repositories
             var clockExists = _appDbContext.clocks
                 .Where(x => x.EmployeeId == clock.EmployeeId)
                 .FirstOrDefault(c => c.ClockIn.Date == today);
-                       
+
 
             if (clockExists == null)
             {
@@ -59,6 +59,19 @@ namespace Registro_de_Ponto_CTEDS.Repositories
 
             return null;
         }
+
+        public Clock GetTodayClock(int employeeId)
+        {
+            var today = DateTime.Now.Date.Day;
+            var clocks = _appDbContext.clocks
+                .Where(x => x.EmployeeId == employeeId)
+                .FirstOrDefault(c => c.ClockIn.Date.Day == today);
+                
+               // .FirstOrDefault<Clock>(x => x.ClockIn.Date == today);
+            return clocks;
+        }
+
+
         public void UpdateTime(int Id, int update)
         {
             var updateclock = _appDbContext.clocks.FirstOrDefault(x => x.Id == Id);

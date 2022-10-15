@@ -44,12 +44,32 @@ namespace Registro_de_Ponto_CTEDS.Controllers
                 {
                     return Ok(clock);
                 }
-                return NotFound("Empregado não encontrado.");
+                return NotFound();
             }
             catch (Exception e)
             {
 
                 return BadRequest(e);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetTodayClock")]
+        public IActionResult GetTodayClock(int employeeId)
+        {
+            try
+            {
+                var clocks = _clockRepository.GetTodayClock(employeeId);
+                if (clocks !=null)
+                {
+                    return Ok(clocks);
+                }
+                return NotFound();
+            }
+            catch (Exception)
+            {
+
+                return BadRequest();
             }
         }
 
