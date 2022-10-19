@@ -14,10 +14,10 @@ namespace Registro_de_Ponto_CTEDS.Context
 
         public AppDbContext()
         {
-            var folder = Environment.SpecialFolder.LocalApplicationData;
-            var path = Environment.GetFolderPath(folder);
+           
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
 
-            DbPath = System.IO.Path.Join(path, "registro-ponto.db");
+            DbPath = System.IO.Path.Join(baseDir, "registro-ponto.db");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
