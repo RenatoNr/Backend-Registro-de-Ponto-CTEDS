@@ -61,5 +61,15 @@ namespace Registro_de_Ponto_CTEDS.Controllers
 
         }
 
+        [HttpPost]
+        [Route("Login")]
+
+        public IActionResult Login(string cpf, string password)
+        {
+            var result = _employeeRepository.Login(cpf, password);
+            return Ok(result);
+        }
+
+
     }
 }

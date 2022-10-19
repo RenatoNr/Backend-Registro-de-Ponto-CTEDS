@@ -2,6 +2,7 @@
 using Registro_de_Ponto_CTEDS.Interfaces;
 using Registro_de_Ponto_CTEDS.Models;
 using Registro_de_Ponto_CTEDS.Services;
+using BC = BCrypt.Net.BCrypt;
 
 namespace Registro_de_Ponto_CTEDS.Repositories
 {
@@ -22,6 +23,8 @@ namespace Registro_de_Ponto_CTEDS.Repositories
             var cpfexists = _context.employees.FirstOrDefault(c => c.Cpf == employee.Cpf);
             if (cpfexists == null)
             {
+                string passwordHash = BC.HashPassword(employee.Password);
+                employee.Password = passwordHash;
                 _context.employees.Add(employee);
                 _context.SaveChanges();
             }
@@ -50,12 +53,40 @@ namespace Registro_de_Ponto_CTEDS.Repositories
 
         public bool Login(string cpf, string password)
         {
-            throw new NotImplementedException();
+            var employee = GetUser(cpf);
+            if (employee != null)
+            {
+                var dbHashedPassword = employee.Password;
+                var result = BC.Verify(password, dbHashedPassword);
+
+                if (result)
+                {
+                    return true;
+
+                }
+                return false;
+            }
+
+            return false;
         }
 
         public void RegisterClockIn()
         {
             throw new NotImplementedException();
         }
+
+
+        public Employee? GetUser(string cpf)
+        {
+            var user = _context.employees.FirstOrDefault(x => x.Cpf == cpf);
+            if (user != null)
+            {
+                return user;
+            }
+
+            return null;
+        }
+
+       
     }
 }
