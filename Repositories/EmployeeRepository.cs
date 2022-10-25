@@ -35,14 +35,6 @@ namespace Registro_de_Ponto_CTEDS.Repositories
         {
             var employee = _context.employees.FirstOrDefault(e => e.Cpf == cpf);
 
-            //if (employee != null)
-            //{
-            //    var today = DateTime.Now.Date;
-
-            //    Clock todayClocks = employee.clocks.FirstOrDefault(c => c.ClockIn.Date == today);
-
-            //    employee.clocks.Add(todayClocks);
-            //}
             return employee;
         }
 

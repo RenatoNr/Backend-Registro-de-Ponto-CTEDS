@@ -128,9 +128,18 @@ namespace Registro_de_Ponto_CTEDS.Controllers
 
         public IActionResult WorkDay(int Id)
         {
-            var result = _clockRepository.GetMissWorkDay();
+            try
+            {
+                var result = _clockRepository.GetMissWorkDay();
 
-            return Ok(result);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest(e.Message);
+            }
+            
         }
     }
 }

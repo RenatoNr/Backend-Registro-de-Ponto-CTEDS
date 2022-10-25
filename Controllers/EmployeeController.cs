@@ -22,8 +22,8 @@ namespace Registro_de_Ponto_CTEDS.Controllers
         {
             try
             {
-              
-                 _employeeRepository.Create(employee);
+
+                _employeeRepository.Create(employee);
                 return Ok("Funcionário criado com sucesso!");
             }
             catch (Exception e)
@@ -56,8 +56,17 @@ namespace Registro_de_Ponto_CTEDS.Controllers
         [HttpGet]
         public IActionResult ListEmployees()
         {
-            var employees = _employeeRepository.GetEmployees();
-            return Ok(employees);
+            try
+            {
+                var employees = _employeeRepository.GetEmployees();
+                return Ok(employees);
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest(e.Message);
+            }
+
 
         }
 
@@ -66,8 +75,17 @@ namespace Registro_de_Ponto_CTEDS.Controllers
 
         public IActionResult Login(string cpf, string password)
         {
-            var result = _employeeRepository.Login(cpf, password);
-            return Ok(result);
+            try
+            {
+                var result = _employeeRepository.Login(cpf, password);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest(e.Message);
+            }
+
         }
 
 

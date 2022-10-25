@@ -27,7 +27,7 @@ namespace Registro_de_Ponto_CTEDS.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e);
+                return BadRequest(e.Message);
             }
 
         }
@@ -48,7 +48,7 @@ namespace Registro_de_Ponto_CTEDS.Controllers
             catch (Exception e)
             {
 
-                return BadRequest(e);
+                return BadRequest(e.Message);
             }
         }
 
@@ -60,10 +60,10 @@ namespace Registro_de_Ponto_CTEDS.Controllers
                 _userRepository.Create(user);
                 return Ok("Usuário criado com sucesso!");
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                return BadRequest();
+                return BadRequest(e.Message);
             }
 
         }
@@ -79,16 +79,25 @@ namespace Registro_de_Ponto_CTEDS.Controllers
             catch (Exception e)
             {
 
-                return BadRequest(e);
+                return BadRequest(e.Message);
             }
         }
 
         [HttpPost]
         [Route("Login")]
-        public IActionResult Login(LoginData data)
+        public IActionResult Login(string cpf, string password)
         {
-          var login = _userRepository.Login(data.Cpf, data.Password);
-           return Ok(login);
+            try
+            {
+                var login = _userRepository.Login(cpf, password);
+                return Ok(login);
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest(e.Message);
+            }
+          
         }
     }
 }
