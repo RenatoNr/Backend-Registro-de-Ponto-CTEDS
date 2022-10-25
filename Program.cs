@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Http.Features;
+using Quartz;
 using Registro_de_Ponto_CTEDS.Context;
 using Registro_de_Ponto_CTEDS.Interfaces;
 using Registro_de_Ponto_CTEDS.Repositories;
+using Registro_de_Ponto_CTEDS.Services;
 
 namespace Registro_de_Ponto_CTEDS
 {
@@ -31,6 +33,24 @@ namespace Registro_de_Ponto_CTEDS
             builder.Services.AddScoped<IUser, UserRepository>();
             builder.Services.AddScoped<IEmployee, EmployeeRepository>();
             builder.Services.AddScoped<IClock, ClockRepository>();
+
+            //Adicionado CronJOB para verificar faltas
+
+            builder.Services.AddQuartz(q =>
+            {
+                q.UseMicrosoftDependencyInjectionScopedJobFactory();
+                var cronJob = new JobKey("CronJob");
+                q.AddJob<CronJob>(opt => opt.WithIdentity(cronJob));
+
+                q.AddTrigger(opt => opt
+                .ForJob(cronJob)
+                .WithIdentity("CronJob-trigger")
+                .WithCronSchedule("0 0 11 * * ?")); //Executa a função verificar faltas todo dia às 11:00 da noite
+            }
+            );
+            builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
+           // builder.Services.AddQuartzServer(opt => opt.WaitForJobsToComplete = true);
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

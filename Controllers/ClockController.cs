@@ -122,5 +122,15 @@ namespace Registro_de_Ponto_CTEDS.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpPost]
+        [Route("WorkDay")]
+
+        public IActionResult WorkDay(int Id)
+        {
+            var result = _clockRepository.GetMissWorkDay();
+
+            return Ok(result);
+        }
     }
 }

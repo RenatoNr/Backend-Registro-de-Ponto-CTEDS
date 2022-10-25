@@ -2,6 +2,7 @@
 using Registro_de_Ponto_CTEDS.Context;
 using Registro_de_Ponto_CTEDS.Interfaces;
 using Registro_de_Ponto_CTEDS.Models;
+using Registro_de_Ponto_CTEDS.Services;
 using BC = BCrypt.Net.BCrypt;
 
 namespace Registro_de_Ponto_CTEDS.Repositories
@@ -66,8 +67,8 @@ namespace Registro_de_Ponto_CTEDS.Repositories
             var clocks = _appDbContext.clocks
                 .Where(x => x.EmployeeId == employeeId)
                 .FirstOrDefault(c => c.ClockIn.Date.Day == today);
-                
-               // .FirstOrDefault<Clock>(x => x.ClockIn.Date == today);
+
+            // .FirstOrDefault<Clock>(x => x.ClockIn.Date == today);
             return clocks;
         }
 
@@ -110,6 +111,57 @@ namespace Registro_de_Ponto_CTEDS.Repositories
             return TimeSpan.Zero;
 
         }
+
+        public string GetMissWorkDay()
+        {
+           
+           VerifyAllEmployeeMissWorkDay();
+
+            return "Verificação de faltas executada com sucesso.";
+        }
+
+        private void VerifyAllEmployeeMissWorkDay()
+        {
+            var today = DateTime.Now.Date;
+            var employees = _appDbContext.employees.ToList();
+
+            if (employees.Count != 0)
+            {
+                foreach (var employee in employees)
+                {
+                    SaveMissWorkDay(employee.Id);
+                }
+            }
+        }
+
+        private void SaveMissWorkDay(int Id)
+        {
+            var getDayOfWeek = DateTime.Now.DayOfWeek.ToString();
+            var today = DateTime.Now.Date;
+
+            var user = _appDbContext.clocks.Where(x => x.EmployeeId == Id).FirstOrDefault(c => c.ClockOut == today);
+
+            if (getDayOfWeek == "Saturday" || getDayOfWeek == "Sunday" || user != null)
+            {
+                return;
+            }
+
+            var missWorkDayExist = _appDbContext.workdays.Where(e => e.EmployeeId == Id).FirstOrDefault(x => x.MissWorDate == today);
+
+            if (missWorkDayExist != null)
+            {
+                return;
+            }
+
+            WorkDay workDay = new WorkDay();
+            workDay.EmployeeId = Id;
+            workDay.MissWorDate = today;
+
+            _appDbContext.Add(workDay);
+            _appDbContext.SaveChanges();
+
+        }
+
 
     }
 }

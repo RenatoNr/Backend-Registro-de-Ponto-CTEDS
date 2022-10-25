@@ -11,6 +11,7 @@ namespace Registro_de_Ponto_CTEDS.Context
         public DbSet<Employee> employees { get; set; }
         public DbSet<Clock> clocks { get; set; }
         public DbSet<User> users { get; set; }
+        public DbSet<WorkDay> workdays { get; set; }
 
         public AppDbContext()
         {

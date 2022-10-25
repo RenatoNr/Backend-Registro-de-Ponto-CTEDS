@@ -16,5 +16,7 @@ namespace Registro_de_Ponto_CTEDS.Models
         
         public ICollection<Clock>? clocks { get; set; }
 
+        public ICollection<WorkDay>? MissWorkDays { get; set; }
+
     }
 }

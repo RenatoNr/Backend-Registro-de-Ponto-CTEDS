@@ -10,4 +10,5 @@ public interface IClock
     public Clock GetTodayClock(int employeeId);
     public void UpdateTime(int Id, int update);
     public TimeSpan SumWorkTime(int id);
+    public string GetMissWorkDay();
 }
