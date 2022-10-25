@@ -33,6 +33,7 @@ namespace Registro_de_Ponto_CTEDS
             builder.Services.AddScoped<IUser, UserRepository>();
             builder.Services.AddScoped<IEmployee, EmployeeRepository>();
             builder.Services.AddScoped<IClock, ClockRepository>();
+            builder.Services.AddScoped<IWorkDay, WorkDayRepository>();
 
             //Adicionado CronJOB para verificar faltas
 
